@@ -1,0 +1,108 @@
+/* ---------- Base / tokens ---------- */
+:root{
+  --bg:#ffffff; --ink:#1b1b1b; --muted:#6b7280; --line:#e5e7eb;
+  --brand:#0ea5e9;
+  --maxw: 72ch;    /* ~60–75 characters per line */
+  --radius: 14px;  --shadow: 0 8px 24px rgba(0,0,0,.06);
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0; padding:0;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--ink); background:var(--bg);
+  line-height:1.55; font-size:16px;
+}
+
+/* ---------- Layout ---------- */
+.wrapper{ max-width:1000px; margin:45 auto; padding:28px 20px; }
+.section{ margin:32px auto 56px; }
+.text{ max-width:var(--maxw); }
+.grid{ display:grid; gap:24px; grid-template-columns: 1fr; }
+@media (min-width: 960px){ .grid-2{ grid-template-columns: 1.1fr .9fr; } }
+
+/* ---------- Typography ---------- */
+h1{
+  font-size: clamp(28px, 3.2vw, 36px);
+  line-height:1.2; margin:0 0 8px; letter-spacing:-0.015em;
+}
+.kicker{
+  color:var(--muted); margin:0 0 20px; font-size: clamp(16px, 2vw, 18px);
+}
+h2{ font-size: clamp(20px, 2.4vw, 26px); margin: 0 0 8px; line-height:1.3; }
+p{ margin: 10px 0 0; }
+a{ color:var(--brand); text-decoration: none; }
+a:hover{ text-decoration: underline; }
+
+/* ---------- Cards / chart containers ---------- */
+.card{
+  background:#e8e2e4; border:1px solid var(--line);
+  border-radius:var(--radius); box-shadow: var(--shadow);
+  padding:16px;
+}
+.chart{ width:100%; height:auto; min-height:260px; }
+.caption{
+  color:var(--muted); font-size:14px; margin-top:10px;
+  max-width:var(--maxw);
+}
+
+/* ---------- Legends / badges ---------- */
+.legend{ display:flex; flex-wrap:wrap; gap:10px; margin:6px 0 0; }
+.legend .item{ display:flex; align-items:center; gap:8px; font-size:14px; color:#374151; }
+.swatch{ width:12px; height:12px; border-radius:3px; border:1px solid #d1d5db; }
+
+/* ---------- Figure alignment ---------- */
+.figure{ display:flex; flex-direction:column; align-items:center; }
+.figure .text{ text-align:left; }
+
+/* ---------- Footer ---------- */
+footer{
+  margin:56px 0 16px; padding-top:16px; border-top:1px solid var(--line);
+  color:var(--muted); font-size:14px;
+}
+
+/* ---------- Accessibility niceties ---------- */
+:focus-visible{ outline:2px solid var(--brand); outline-offset:2px; }
+.visually-hidden{
+  position:absolute!important; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+
+/* --- Insight callout box --- */
+.callout {
+  background:#fefefe; border:1px solid var(--line);
+  border-radius:12px; padding:10px 12px; margin-top:10px;
+  font-size:14px; color:#000000;
+}
+.callout b { font-weight:600; }
+
+
+
+
+/* --- Center everything nicely --- */
+
+/* 1) Center page headings & kicker */
+header.section, header.section * { text-align: center; }
+
+/* 2) Center all section cards inside the wrapper */
+.section .card { margin-left: auto; margin-right: auto; }
+
+/* 3) Center figure headings & captions */
+.figure h2, .caption { text-align: center; }
+
+/* 4) Center the actual Vega containers */
+.chart { display: block; margin: 0 auto; }
+
+/* 5) For the 2-column row, center each column's content */
+.grid { justify-items: center; }
+
+/* 6) Your earlier CSS forced figure text left — override it */
+.figure .text { text-align: center !important; }
+
+/* 7) Optional: keep charts a bit narrower for a nicer look */
+.card .chart { max-width: 900px; width: 100%; }
+
+
+
