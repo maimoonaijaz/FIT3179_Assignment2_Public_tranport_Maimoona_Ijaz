@@ -4,11 +4,11 @@ Stations, lines and ridership across KL–Selangor.
 **Live site:** https://maimoonaijaz.github.io/<your-repo>/
 
 ## Files
-- `index.html` — main page (Vega-Lite embeds)
-- `css/style.css` — layout & typography
-- `js/main.js` — `vegaEmbed` calls
-- `vl/` — Vega-Lite specifications
-- `data/` — CSV/TopoJSON/GeoJSON (kept < 1 MB)
+- `index.html`  main page (Vega-Lite embeds)
+- `css/style.css`  layout & typography
+- `js/main.js` `vegaEmbed` calls
+- `vl/`  Vega-Lite specifications
+- `data/`  CSV/TopoJSON/GeoJSON (kept < 1 MB)
 
 ## Visualisations
 1. **Rail stations across Klang Valley**  filter by line or show interchange hubs.
@@ -24,3 +24,4 @@ Stations, lines and ridership across KL–Selangor.
 
 Author: **maimoonaijaz** • Updated: Oct 2025  
 AI assistance acknowledged.
+
