@@ -1,7 +1,8 @@
 # How Klang Valley Moves
 Stations, lines and ridership across KL–Selangor.
 
-**Live site:** https://maimoonaijaz.github.io/<FIT3179_Assignment2_Public_transport_Maimoona_Ijaz>/
+**Live site:** https://maimoonaijaz.github.io/FIT3179_Assignment2_Public_tranport_Maimoona_Ijaz/
+
 
 ## Files
 - `index.html`  main page (Vega-Lite embeds)
@@ -24,5 +25,6 @@ Stations, lines and ridership across KL–Selangor.
 
 Author: **maimoonaijaz** • Updated: Oct 2025  
 AI assistance acknowledged.
+
 
 
