@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>The Klang Valley Commute</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <header class="section text">
+      <h1>The Klang Valley Commute</h1>
+      <p class="kicker">What the data says about travel in KL–Selangor.</p>
+    </header>
+
+    <!-- MAP 1:Point map -->
+    <section class="section">
+      <div class="card figure">
+        <h2 class="text">Rail stations across Klang Valley</h2>
+        <div id="map1" class="chart" role="img" aria-label="Klang Valley rail stations by line"></div>
+
+        <!-- insight callout -->
+        <div class="callout">
+          <b>What to notice:</b> Interchange hubs (ringed) cluster around central KL, with corridors
+          extending to Petaling Jaya, Subang and Kajang. The Putrajaya MRT pushes south; Monorail
+          serves the city core.
+        </div>
+
+        <p class="caption">Rail stations coloured by line; interchanges ringed. Districts shown in light grey.</p>
+      </div>
+    </section>
+
+    <!-- MAP 2 + 3: Heatmap and Bars side-by-side on wide screens -->
+    <section class="section grid grid-2">
+      <div class="card figure">
+        <h2 class="text">When KL–Selangor rides</h2>
+        <div id="map2" class="chart" role="img" aria-label="Monthly ridership intensity by line"></div>
+
+        <!-- insight callout -->
+        <div class="callout">
+          <b>What to notice:</b> All lines share similar seasonality: holiday dips and year-end peaks.
+          Larger systems keep a higher baseline across months.
+        </div>
+
+        <p class="caption">Month × line heatmap showing average daily riders.</p>
+      </div>
+
+      <div class="card figure">
+        <h2 class="text">Weekday vs weekend</h2>
+        <div id="map3" class="chart" role="img" aria-label="Weekday versus weekend ridership by line"></div>
+
+        <!-- insight callout -->
+        <div class="callout">
+          <b>What to notice:</b> Commuter-oriented lines (e.g. LRT Kelana Jaya, MRT Kajang) are much
+          busier on weekdays than weekends, while Monorail is flatter. The line shows the gap; dots show
+          Weekday (green) vs Weekend (pink).
+        </div>
+
+        <p class="caption">Average riders by line, split by weekday/weekend.</p>
+      </div>
+    </section>
+
+    <!-- MAP 4: Line trend -->
+    <section class="section">
+      <div class="card figure">
+        <h2 class="text">Ridership trend</h2>
+        <div id="map4" class="chart" role="img" aria-label="7-day moving average ridership by line"></div>
+
+        <!-- insight callout -->
+        <div class="callout">
+          <b>What to notice:</b> All services move together with visible holiday troughs. LRT Kelana Jaya
+          remains the highest through most of the period; Monorail stays well below other lines.
+        </div>
+
+        <p class="caption">7-day moving average per service over the last 12–24 months.</p>
+      </div>
+    </section>
+
+    <footer class="text">
+      <p>
+        Designed by: Maimoona Ijaz
+        Upload Date: 24 October 2025 
+        Data Sources: data.gov.my (ridership), geoBoundaries (ADM2), Prasarana GTFS (geometry).
+        
+      </p>
+    </footer>
+  </div>
+
+  <!-- Vega / Vega-Lite / Vega-Embed (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <!-- Embedding script -->
+  <script src="js/main.js"></script>
+</body>
+</html>
