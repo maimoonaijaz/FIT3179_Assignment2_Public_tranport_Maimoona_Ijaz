@@ -1,0 +1,59 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 720,
+  "height": 260,
+  "data": {"url": "data/ridership_daily.csv"},
+  "transform": [
+    {"fold": ["rail_mrt_kajang","rail_mrt_pjy","rail_lrt_kj","rail_lrt_ampang","rail_monorail","bus_rkl"], "as": ["service_name","ridership"]},
+    {"calculate": "day(toDate(datum.date))", "as": "dow"},
+    {"calculate": "indexof([0,6], datum.dow) >= 0 ? 'Weekend' : 'Weekday'", "as": "wk"},
+    {"aggregate": [{"op":"mean","field":"ridership","as":"avg"}], "groupby": ["service_name","wk"]},
+    {"pivot": "wk", "value": "avg", "groupby": ["service_name"]},
+    {"calculate": "datum['Weekend'] - datum['Weekday']", "as": "diff"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "rule", "strokeWidth": 2, "opacity": 0.7},
+      "encoding": {
+        "y": {
+          "field": "service_name", "type": "nominal", "title": "",
+          "sort": ["rail_mrt_pjy","rail_mrt_kajang","rail_lrt_kj","rail_lrt_ampang","rail_monorail","bus_rkl"],
+          "axis": {
+            "labelExpr": "datum.label=='rail_mrt_pjy' ? 'MRT Putrajaya' : datum.label=='rail_mrt_kajang' ? 'MRT Kajang' : datum.label=='rail_lrt_kj' ? 'LRT Kelana Jaya' : datum.label=='rail_lrt_ampang' ? 'LRT Ampang–Sri Petaling' : datum.label=='rail_monorail' ? 'Monorail' : datum.label=='bus_rkl' ? 'RapidKL Bus' : datum.label"
+          }
+        },
+        "x": {
+          "field": "Weekday", "type": "quantitative",
+          "title": "Average riders",
+          "axis": { "format": ",.0f", "tickCount": 6 }
+        },
+        "x2": {"field": "Weekend"}
+      }
+    },
+    {
+      "transform": [
+        {"fold": ["Weekday","Weekend"], "as": ["wk","avg_val"]}
+      ],
+      "mark": {"type": "point", "filled": true, "size": 70},
+      "encoding": {
+        "y": {"field": "service_name", "type": "nominal"},
+        "x": {"field": "avg_val", "type": "quantitative"},
+        "color": {
+          "field": "wk",
+          "type": "nominal",
+          "title": "",
+          "scale": {
+            "domain": ["Weekday","Weekend"],
+            "range": ["#10b981", "#ec4899"]
+          },
+          "legend": {"orient": "bottom"}
+        },
+        "tooltip": [
+          {"field": "wk", "title": "Type"},
+          {"field": "avg_val", "title": "Avg riders", "format": ",.0f"}
+        ]
+      }
+    }
+  ],
+  "config": { "view": { "stroke": null } }
+}

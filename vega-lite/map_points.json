@@ -1,0 +1,94 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 720,
+  "height": 560,
+  "projection": {"type": "mercator", "center": [101.68, 3.10], "scale": 55000},
+
+  "params": [
+    {
+      "name": "selLine",
+      "value": "Show All",
+      "bind": {
+        "input": "select",
+        "options": ["Show All","MRT Kajang","MRT Putrajaya","LRT Kelana Jaya","LRT Ampang–Sri Petaling","Monorail","Interchange"],
+        "name": "Select: "
+      }
+    }
+  ],
+
+  "layer": [
+    {
+      "data": {
+        "url": "data/klang_valley_districts.topo.json",
+        "format": {"type": "topojson", "feature": "districts"}
+      },
+      "mark": {"type": "geoshape", "fill": "#f3f4f6", "stroke": "#d1d5db"}
+    },
+
+  
+    {
+      "data": {"url": "data/place_labels.csv"},
+      "mark": {"type": "text", "fontSize": 12, "fontWeight": "bold", "fill": "#4b5563", "opacity": 0.9},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "name"}
+      }
+    },
+
+    
+    {
+      "data": {"url": "data/rail_stations.geojson", "format": {"type": "json", "property": "features"}},
+      "transform": [
+        {"calculate": "datum.geometry && datum.geometry.coordinates ? datum.geometry.coordinates[0] : null", "as": "lon"},
+        {"calculate": "datum.geometry && datum.geometry.coordinates ? datum.geometry.coordinates[1] : null", "as": "lat"},
+        {"calculate": "datum.properties && datum.properties.name ? datum.properties.name : datum.name", "as": "name_clean"},
+        {"calculate": "datum.properties && datum.properties.line_group ? datum.properties.line_group : (datum.line_group ? datum.line_group : (datum.properties && datum.properties.line ? datum.properties.line : null))", "as": "line_raw"},
+        {
+          "calculate": "datum.line_raw=='AG' ? 'LRT Ampang–Sri Petaling' : datum.line_raw=='KJ' ? 'LRT Kelana Jaya' : datum.line_raw=='MR' ? 'Monorail' : datum.line_raw=='MRT' ? 'MRT Kajang' : (datum.line_raw=='PYL' || datum.line_raw=='PH') ? 'MRT Putrajaya' : datum.line_raw",
+          "as": "line_full"
+        },
+        {
+          "filter": "selLine=='Show All' ? true : (selLine=='Interchange' ? (datum.properties && datum.properties.is_interchange==1) : datum.line_full==selLine)"
+        },
+        {"filter": "isValid(datum.lon) && isValid(datum.lat)"}
+      ],
+      "mark": {"type": "circle", "opacity": 0.95, "stroke": "white", "strokeWidth": 0.7},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "size": {"value": 90},
+        "color": {
+          "field": "line_full",
+          "type": "nominal",
+          "title": "Line",
+          "scale": {
+            "domain": ["MRT Kajang","MRT Putrajaya","LRT Kelana Jaya","LRT Ampang–Sri Petaling","Monorail"]
+          }
+        },
+        "tooltip": [
+          {"field": "name_clean", "title": "Station"},
+          {"field": "line_full", "title": "Line"}
+        ]
+      }
+    },
+
+  
+    {
+      "data": {"url": "data/rail_stations.geojson", "format": {"type": "json", "property": "features"}},
+      "transform": [
+        {"calculate": "datum.geometry && datum.geometry.coordinates ? datum.geometry.coordinates[0] : null", "as": "lon"},
+        {"calculate": "datum.geometry && datum.geometry.coordinates ? datum.geometry.coordinates[1] : null", "as": "lat"},
+        {"calculate": "datum.properties && datum.properties.is_interchange != null ? datum.properties.is_interchange : (datum.is_interchange != null ? datum.is_interchange : 0)", "as": "isX"},
+        {"filter": "datum.isX==1 && isValid(datum.lon) && isValid(datum.lat)"},
+        {"calculate": "selLine=='Interchange' || selLine=='Show All' ? 1 : 0", "as": "showRing"},
+        {"filter": "datum.showRing==1"}
+      ],
+      "mark": {"type": "circle", "filled": false, "stroke": "black", "strokeWidth": 1.2, "size": 400},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"}
+      }
+    }
+  ]
+}

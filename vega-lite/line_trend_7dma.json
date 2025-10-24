@@ -1,0 +1,40 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 720,
+  "height": 260,
+  "data": {"url": "data/ridership_daily.csv"},
+  "transform": [
+    {
+      "fold": [
+        "rail_mrt_kajang",
+        "rail_mrt_pjy",
+        "rail_lrt_kj",
+        "rail_lrt_ampang",
+        "rail_monorail",
+        "bus_rkl"
+      ],
+      "as": ["service_name", "ridership"]
+    },
+    {"sort": [{"field": "date"}]},
+    {
+      "window": [{"op": "mean", "field": "ridership", "as": "riders_7dma"}],
+      "frame": [-3, 3],
+      "groupby": ["service_name"]
+    }
+  ],
+  "mark": {"type": "line"},
+  "encoding": {
+    "x": {"field": "date", "type": "temporal", "title": "Date"},
+    "y": {"field": "riders_7dma", "type": "quantitative", "title": "Riders (7-day avg)"},
+    "color": {
+      "field": "service_name",
+      "type": "nominal",
+      "title": "Line"
+    },
+    "tooltip": [
+      {"field": "date", "type": "temporal"},
+      {"field": "service_name", "title": "Line"},
+      {"field": "riders_7dma", "title": "7-day avg", "format": ","}
+    ]
+  }
+}

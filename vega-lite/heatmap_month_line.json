@@ -1,0 +1,39 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "height": 280,
+  "data": {"url": "data/ridership_daily.csv"},
+  "transform": [
+    {
+      "fold": [
+        "rail_mrt_kajang",
+        "rail_mrt_pjy",
+        "rail_lrt_kj",
+        "rail_lrt_ampang",
+        "rail_monorail",
+        "bus_rkl"
+      ],
+      "as": ["service_name", "ridership"]
+    },
+    {"timeUnit": "yearmonth", "field": "date", "as": "ym"},
+    {
+      "aggregate": [{"op": "mean", "field": "ridership", "as": "avg_riders"}],
+      "groupby": ["ym", "service_name"]
+    }
+  ],
+  "mark": "rect",
+  "encoding": {
+    "x": {"field": "ym", "type": "temporal", "title": "Month"},
+    "y": {
+      "field": "service_name",
+      "type": "nominal",
+      "title": "Line",
+      "sort": ["rail_mrt_pjy","rail_mrt_kajang","rail_lrt_kj","rail_lrt_ampang","rail_monorail","bus_rkl"]
+    },
+    "color": {"field": "avg_riders", "type": "quantitative", "title": "Avg daily riders"},
+    "tooltip": [
+      {"field": "ym", "type": "temporal", "title": "Month"},
+      {"field": "service_name", "title": "Line"},
+      {"field": "avg_riders", "title": "Avg riders", "format": ","}
+    ]
+  }
+}
